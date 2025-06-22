@@ -1,0 +1,32 @@
+{
+  "name": "youtube-shorts-limiter",
+  "version": "1.0.0",
+  "description": "A Firefox extension that limits YouTube Shorts viewing to 5 videos per day",
+  "main": "src/manifest.json",
+  "scripts": {
+    "build": "./build.sh",
+    "dev": "echo 'For development, use about:debugging in Firefox'"
+  },
+  "keywords": [
+    "firefox",
+    "extension",
+    "youtube",
+    "shorts",
+    "productivity",
+    "limit",
+    "webextension"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/youtube-shorts-limiter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/youtube-shorts-limiter/issues"
+  },
+  "homepage": "https://github.com/yourusername/youtube-shorts-limiter#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+} 
