@@ -19,27 +19,15 @@ done
 echo "Creating ZIP archive for extension..."
 
 # Создаем временную папку
-rm -rf temp
-mkdir -p temp
+rm -rf dist
+mkdir -p dist
 
-# Копируем только необходимые файлы для расширения
-cp src/manifest.json temp/
-cp src/content.js temp/
-cp src/background.js temp/
-cp src/popup.html temp/
-cp src/popup.js temp/
-
-# Копируем папку с иконками
-mkdir -p temp/images
-cp src/images/icon-*.png temp/images/
+deno -A build.ts
 
 # Создаем ZIP архив
-cd temp
+cd dist
 zip -r ../youtube-shorts-limiter.zip * 2>/dev/null
 cd ..
-
-# Удаляем временную папку
-rm -rf temp
 
 echo "Done! Created file: youtube-shorts-limiter.zip"
 echo ""

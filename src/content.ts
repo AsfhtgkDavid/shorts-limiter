@@ -1,10 +1,17 @@
+// deno-lint-ignore-file require-await
 // YouTube Shorts Limiter - Content Script
+import browser from "webextension-polyfill";
+import type { Message, Settings } from "./types.ts";
+
+const ext = (typeof chrome !== "undefined" ? chrome : browser) as typeof chrome;
+
 class ShortsLimiter {
+  shortsCount = 0;
+  maxShorts = 5;
+  isBlocked = false;
+  enabled = true;
+
   constructor() {
-    this.shortsCount = 0;
-    this.maxShorts = 5;
-    this.isBlocked = false;
-    this.enabled = true;
     this.init();
   }
 
@@ -18,21 +25,28 @@ class ShortsLimiter {
 
   async loadShortsCount() {
     const today = this.getTodayKey();
-    const result = await browser.storage.local.get(today);
+    const result: Record<string, number> = await ext.storage.local.get(today);
     this.shortsCount = result[today] || 0;
     console.log(`Shorts viewed today: ${this.shortsCount}`);
   }
 
   async loadSettings() {
-    const result = await browser.storage.local.get(['maxShorts', 'enabled']);
+    const result: Settings = await ext.storage.local.get([
+      "maxShorts",
+      "enabled",
+    ]);
     this.maxShorts = result.maxShorts || 5;
     this.enabled = result.enabled !== false;
-    console.log(`Settings loaded: maxShorts=${this.maxShorts}, enabled=${this.enabled}`);
+    console.log(
+      `Settings loaded: maxShorts=${this.maxShorts}, enabled=${this.enabled}`,
+    );
   }
 
   async saveShortsCount() {
     const today = this.getTodayKey();
-    await browser.storage.local.set({ [today]: this.shortsCount });
+    return new Promise<void>((resolve) => {
+      ext.storage.local.set({ [today]: this.shortsCount }, () => resolve());
+    });
   }
 
   getTodayKey() {
@@ -41,19 +55,23 @@ class ShortsLimiter {
   }
 
   isShortsPage() {
-    return window.location.pathname.includes('/shorts/') || 
-           window.location.pathname.includes('/watch') && 
-           document.querySelector('meta[property="og:video:width"][content="1080"]') &&
-           document.querySelector('meta[property="og:video:height"][content="1920"]');
+    return globalThis.location.pathname.includes("/shorts/") ||
+      globalThis.location.pathname.includes("/watch") &&
+        document.querySelector(
+          'meta[property="og:video:width"][content="1080"]',
+        ) &&
+        document.querySelector(
+          'meta[property="og:video:height"][content="1920"]',
+        );
   }
 
   async incrementShortsCount() {
     if (!this.enabled) return;
-    
+
     this.shortsCount++;
     await this.saveShortsCount();
     console.log(`Shorts count increased to: ${this.shortsCount}`);
-    
+
     if (this.shortsCount >= this.maxShorts) {
       this.blockShorts();
     }
@@ -61,13 +79,13 @@ class ShortsLimiter {
 
   blockShorts() {
     if (this.isBlocked || !this.enabled) return;
-    
+
     this.isBlocked = true;
-    console.log('Blocking YouTube Shorts - limit reached!');
-    
+    console.log("Blocking YouTube Shorts - limit reached!");
+
     // Создаем блокирующий экран
-    const blocker = document.createElement('div');
-    blocker.id = 'shorts-limiter-blocker';
+    const blocker = document.createElement("div");
+    blocker.id = "shorts-limiter-blocker";
     blocker.innerHTML = `
       <div style="
         position: fixed;
@@ -118,62 +136,81 @@ class ShortsLimiter {
         ">Close</button>
       </div>
     `;
-    
+
     document.body.appendChild(blocker);
-    
+
     // Обработчик кнопки перехода на главную
-    document.getElementById('shorts-limiter-home').addEventListener('click', () => {
-      window.location.href = 'https://www.youtube.com/';
-    });
-    
+    document.getElementById("shorts-limiter-home")?.addEventListener(
+      "click",
+      () => {
+        globalThis.location.href = "https://www.youtube.com/";
+      },
+    );
+
     // Обработчик кнопки закрытия
-    document.getElementById('shorts-limiter-close').addEventListener('click', () => {
-      const blocker = document.getElementById('shorts-limiter-blocker');
-      if (blocker) {
-        blocker.remove();
-        this.isBlocked = false;
-      }
-    });
-    
+    document.getElementById("shorts-limiter-close")?.addEventListener(
+      "click",
+      () => {
+        const blocker = document.getElementById("shorts-limiter-blocker");
+        if (blocker) {
+          blocker.remove();
+          this.isBlocked = false;
+        }
+      },
+    );
+
     // Добавляем hover эффекты
-    document.getElementById('shorts-limiter-home').addEventListener('mouseenter', function() {
-      this.style.background = '#cc0000';
-    });
-    document.getElementById('shorts-limiter-home').addEventListener('mouseleave', function() {
-      this.style.background = '#ff0000';
-    });
-    
-    document.getElementById('shorts-limiter-close').addEventListener('mouseenter', function() {
-      this.style.background = '#555';
-    });
-    document.getElementById('shorts-limiter-close').addEventListener('mouseleave', function() {
-      this.style.background = '#333';
-    });
+    document.getElementById("shorts-limiter-home")?.addEventListener(
+      "mouseenter",
+      function () {
+        this.style.background = "#cc0000";
+      },
+    );
+    document.getElementById("shorts-limiter-home")?.addEventListener(
+      "mouseleave",
+      function () {
+        this.style.background = "#ff0000";
+      },
+    );
+
+    document.getElementById("shorts-limiter-close")?.addEventListener(
+      "mouseenter",
+      function () {
+        this.style.background = "#555";
+      },
+    );
+    document.getElementById("shorts-limiter-close")?.addEventListener(
+      "mouseleave",
+      function () {
+        this.style.background = "#333";
+      },
+    );
   }
 
   async resetShortsCount() {
     this.shortsCount = 0;
     this.isBlocked = false;
     await this.saveShortsCount();
-    const blocker = document.getElementById('shorts-limiter-blocker');
+    const blocker = document.getElementById("shorts-limiter-blocker");
     if (blocker) {
       blocker.remove();
     }
-    console.log('Shorts counter reset');
+    console.log("Shorts counter reset");
   }
 
   setupMessageListener() {
-    browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
-      if (message.type === 'RESET_COUNT') {
+    ext.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
+      const message = msg as Message;
+      if (message.type === "RESET_COUNT") {
         this.resetShortsCount();
         sendResponse({ success: true });
       }
-      
-      if (message.type === 'TOGGLE_EXTENSION') {
-        this.enabled = message.enabled;
+
+      if (message.type === "TOGGLE_EXTENSION") {
+        this.enabled = message.enabled || true;
         if (!this.enabled) {
           // Убираем блокировку если расширение отключено
-          const blocker = document.getElementById('shorts-limiter-blocker');
+          const blocker = document.getElementById("shorts-limiter-blocker");
           if (blocker) {
             blocker.remove();
             this.isBlocked = false;
@@ -181,22 +218,23 @@ class ShortsLimiter {
         }
         sendResponse({ success: true });
       }
+      return true;
     });
   }
 
   checkCurrentPage() {
     if (this.isShortsPage()) {
-      console.log('Detected YouTube Shorts page');
-      
+      console.log("Detected YouTube Shorts page");
+
       if (this.shortsCount >= this.maxShorts && this.enabled) {
         this.blockShorts();
         return;
       }
-      
+
       // Отслеживаем время просмотра
-      let startTime = Date.now();
+      const startTime = Date.now();
       let hasIncremented = false;
-      
+
       const checkViewTime = () => {
         const viewTime = Date.now() - startTime;
         // Увеличиваем счетчик после 10 секунд просмотра
@@ -205,42 +243,42 @@ class ShortsLimiter {
           this.incrementShortsCount();
         }
       };
-      
+
       // Проверяем каждую секунду
       const interval = setInterval(checkViewTime, 1000);
-      
+
       // Останавливаем отслеживание при уходе со страницы
       const stopTracking = () => {
         clearInterval(interval);
-        window.removeEventListener('beforeunload', stopTracking);
+        globalThis.removeEventListener("beforeunload", stopTracking);
       };
-      
-      window.addEventListener('beforeunload', stopTracking);
+
+      globalThis.addEventListener("beforeunload", stopTracking);
     }
   }
 
   observePageChanges() {
     // Отслеживаем изменения URL для SPA
-    let currentUrl = window.location.href;
-    
+    let currentUrl = globalThis.location.href;
+
     const observer = new MutationObserver(() => {
-      if (window.location.href !== currentUrl) {
-        currentUrl = window.location.href;
+      if (globalThis.location.href !== currentUrl) {
+        currentUrl = globalThis.location.href;
         setTimeout(() => this.checkCurrentPage(), 1000);
       }
     });
-    
+
     observer.observe(document.body, {
       childList: true,
-      subtree: true
+      subtree: true,
     });
-    
+
     // Также слушаем события popstate для навигации
-    window.addEventListener('popstate', () => {
+    globalThis.addEventListener("popstate", () => {
       setTimeout(() => this.checkCurrentPage(), 1000);
     });
   }
 }
 
 // Запускаем лимитер
-const shortsLimiter = new ShortsLimiter(); 
+const _shortsLimiter = new ShortsLimiter();

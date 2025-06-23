@@ -100,7 +100,8 @@ In the extension popup, you can:
 ## How it works
 
 1. The extension tracks YouTube page URLs
-2. When Shorts are detected (URL contains `/shorts/` or vertical video), tracking begins
+2. When Shorts are detected (URL contains `/shorts/` or vertical video),
+   tracking begins
 3. After 10 seconds of viewing, the counter increases
 4. When the limit is reached, a blocking screen is shown
 5. The counter resets each day at midnight
@@ -126,4 +127,4 @@ MIT License
 
 ## Support
 
-If you have questions or suggestions, create an issue in the project repository. 
+If you have questions or suggestions, create an issue in the project repository.
