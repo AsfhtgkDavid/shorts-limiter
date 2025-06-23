@@ -4,7 +4,9 @@
   "description": "A Firefox extension that limits YouTube Shorts viewing to 5 videos per day",
   "main": "src/manifest.json",
   "scripts": {
-    "build": "./build.sh"
+    "build": "./build_firefox.sh",
+    "build_firefox": "./build_firefox.sh",
+    "build_chrome": "./build_chrome.sh"
   },
   "keywords": [
     "firefox",
