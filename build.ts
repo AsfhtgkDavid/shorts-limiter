@@ -17,9 +17,9 @@ await esbuild.build({
           to: ["./dist/images/"],
         },
         {
-            from: ["./src/*.html", "./src/*.css", "./src/*.json"],
-            to: ["./dist/"]
-        }
+          from: ["./src/*.html", "./src/*.css", "./src/*.json"],
+          to: ["./dist/"],
+        },
       ],
     }),
   ],

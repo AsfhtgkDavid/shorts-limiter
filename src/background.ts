@@ -5,7 +5,7 @@ import browser from "webextension-polyfill";
 import type { Message } from "./types.ts";
 
 // Кросс-браузерный доступ к API
-const ext = 
+const ext =
   (typeof chrome !== "undefined" ? chrome : browser) as typeof browser;
 
 // Обработчик установки расширения
