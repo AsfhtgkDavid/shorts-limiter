@@ -24,6 +24,17 @@ ext.runtime.onInstalled.addListener((details) => {
 ext.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
   const message = msg as Message;
 
+  if (message.type === "UPDATE_BADGE") {
+    const today = getTodayKey();
+    ext.storage.local.get([today, "maxShorts"]).then((value) => {
+      const result = value as Record<string, string>;
+      const maxShorts = Number(result.maxShorts) || 5;
+      const watched = Number(result[today]) || 0;
+      const count = (maxShorts - watched).toString() || "5";
+      ext.action.setBadgeText({ text: count });
+      sendResponse({ success: true });
+    });
+  }
   if (message.type === "GET_SHORTS_COUNT") {
     const today = getTodayKey();
     ext.storage.local.get(today).then((value) => {
