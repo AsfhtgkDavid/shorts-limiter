@@ -23,30 +23,9 @@ A Firefox extension that limits YouTube Shorts viewing to 5 videos per day.
 
 ## Development
 
-### Project Structure
-
-```
-youtube-shorts-limiter/
-├── src/
-│   ├── images/
-│   │   ├── icon.png
-│   │   ├── icon-16.png
-│   │   ├── icon-32.png
-│   │   ├── icon-48.png
-│   │   ├── icon-96.png
-│   │   └── icon-128.png
-│   ├── manifest.json
-│   ├── content.js
-│   ├── background.js
-│   ├── popup.html
-│   └── popup.js
-├── build.sh
-├── package.json
-├── README.md
-└── .gitignore
-```
-
 ### Building
+
+Make sure you have Deno installed before starting building
 
 To build the extension:
 
@@ -68,8 +47,10 @@ npm run build
 
 1. Clone the repository
 2. Make changes to files in `src/`
-3. Run `./build.sh` to create a new package
-4. Test in Firefox using `about:debugging`
+3. Install Deno
+4. Run `./build.sh` to create a new package
+5. Test in Firefox using `about:debugging` or in Chromium based browsers using
+   `chrome://extensions`
 
 ## Usage
 
@@ -90,12 +71,12 @@ In the extension popup, you can:
 
 ## Extension Files
 
-- `src/manifest.json` - extension manifest
-- `src/content.js` - main script for tracking Shorts
-- `src/background.js` - background script
-- `src/popup.html` - popup interface
-- `src/popup.js` - popup logic
-- `src/images/` - extension icons
+- `manifest.json` - extension manifest
+- `content.ts` - main script for tracking Shorts
+- `background.ts` - background script
+- `popup.html` - popup interface
+- `popup.ts` - popup logic
+- `images/` - extension icons
 
 ## How it works
 
@@ -117,7 +98,7 @@ In the extension popup, you can:
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+3. Commit your changes (follow conventional commit naming)
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
