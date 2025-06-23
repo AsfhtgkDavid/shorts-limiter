@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "lib": ["ES2024", "DOM", "WebWorker"],
+    "allowImportingTsExtensions": true,
+    "rewriteRelativeImportExtensions": true,
+    "verbatimModuleSyntax": true,
+    "allowSyntheticDefaultImports": true,
+    "types": ["chrome", "@types/webextension-polyfill"],
+    "module": "esnext",
+    "esModuleInterop": true
+  },
+  "include": ["src/", "*.ts"]
+}

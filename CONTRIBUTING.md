@@ -1,6 +1,7 @@
 # Contributing to YouTube Shorts Limiter
 
-Thank you for your interest in contributing to YouTube Shorts Limiter! This document provides guidelines for contributing to this project.
+Thank you for your interest in contributing to YouTube Shorts Limiter! This
+document provides guidelines for contributing to this project.
 
 ## Getting Started
 
@@ -27,7 +28,7 @@ git checkout -b feature/your-feature-name
    ```bash
    # Build the extension
    ./build.sh
-   
+
    # Test in Firefox using about:debugging
    # Load the src/manifest.json file
    ```
@@ -92,6 +93,7 @@ When reporting issues:
 
 ## Questions?
 
-If you have questions about contributing, feel free to open an issue or contact the maintainers.
+If you have questions about contributing, feel free to open an issue or contact
+the maintainers.
 
-Thank you for contributing! 🎉 
+Thank you for contributing! 🎉
