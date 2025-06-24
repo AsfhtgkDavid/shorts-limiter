@@ -236,14 +236,13 @@ class ShortsLimiter {
         return;
       }
 
-      // Отслеживаем время просмотра
       const startTime = Date.now();
       let hasIncremented = false;
 
       const checkViewTime = () => {
         const viewTime = Date.now() - startTime;
-        // Увеличиваем счетчик после 10 секунд просмотра
-        if (viewTime > 10000 && !hasIncremented && this.enabled) {
+        // Увеличиваем счетчик после 5 секунд просмотра
+        if (viewTime > 5000 && !hasIncremented && this.enabled) {
           hasIncremented = true;
           this.incrementShortsCount();
         }

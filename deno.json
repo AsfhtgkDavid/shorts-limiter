@@ -1,0 +1,20 @@
+{
+  "imports": {
+    "@std/fs": "jsr:@std/fs@^1.0.18"
+  },
+  "compilerOptions": {
+    "lib": [
+      "ES2024",
+      "DOM",
+      "WebWorker"
+    ],
+    "verbatimModuleSyntax": true,
+    "types": [
+      "chrome",
+      "@types/webextension-polyfill"
+    ]
+  },
+  "unstable": [
+    "sloppy-imports"
+  ]
+}

@@ -67,6 +67,11 @@ class PopupManager {
         this.updateUI();
       },
     );
+
+    setInterval(() => {
+      this.loadData();
+      console.log("Refreshed data");
+    }, 2000);
   }
 
   async resetShortsCount() {

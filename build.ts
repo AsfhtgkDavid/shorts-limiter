@@ -1,5 +1,7 @@
-import { copy } from "esbuild-plugin-copy";
+/// <reference lib="deno.ns" />
+import { Glob } from "glob";
 import esbuild from "esbuild";
+import { copy } from "jsr:@std/fs";
 
 await esbuild.build({
   sourcemap: false,
@@ -8,21 +10,15 @@ await esbuild.build({
   outdir: "dist/",
   bundle: true,
   legalComments: "eof",
-  plugins: [
-    copy({
-      resolveFrom: "cwd",
-      assets: [
-        {
-          from: ["./src/images/*.png"],
-          to: ["./dist/images/"],
-        },
-        {
-          from: ["./src/*.html", "./src/*.css", "./src/*.json"],
-          to: ["./dist/"],
-        },
-      ],
-    }),
-  ],
 });
+
+const assetStream = new Glob(["src/*.html", "src/*.css", "src/*.json"], {
+  withFileTypes: true,
+});
+assetStream.stream().on("data", async (path) => {
+  await Deno.copyFile(path.fullpath(), "dist/" + path.name);
+});
+
+copy("src/images/", "dist/images/", { overwrite: true });
 
 await esbuild.stop();
