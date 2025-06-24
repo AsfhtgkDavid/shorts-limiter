@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "YouTube Shorts Limiter",
-  "version": "1.0",
+  "version": "1.0.0",
   "description": "Limits YouTube Shorts viewing to 5 videos per day",
   "icons": {
     "16": "images/icon-16.png",
@@ -31,5 +31,11 @@
   "action": {
     "default_popup": "popup.html",
     "default_title": "YouTube Shorts Limiter"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "shorts-limiter@asfhtgk.david.github.com",
+      "strict_min_version": "58.0"
+    }
   }
 }
