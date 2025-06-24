@@ -235,7 +235,7 @@ class ShortsLimiter {
         this.blockShorts();
         return;
       }
-      
+
       const startTime = Date.now();
       let hasIncremented = false;
 
