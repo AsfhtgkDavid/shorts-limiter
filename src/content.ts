@@ -235,30 +235,7 @@ class ShortsLimiter {
         this.blockShorts();
         return;
       }
-
-      // Отслеживаем время просмотра
-      const startTime = Date.now();
-      let hasIncremented = false;
-
-      const checkViewTime = () => {
-        const viewTime = Date.now() - startTime;
-        // Увеличиваем счетчик после 10 секунд просмотра
-        if (viewTime > 10000 && !hasIncremented && this.enabled) {
-          hasIncremented = true;
-          this.incrementShortsCount();
-        }
-      };
-
-      // Проверяем каждую секунду
-      const interval = setInterval(checkViewTime, 1000);
-
-      // Останавливаем отслеживание при уходе со страницы
-      const stopTracking = () => {
-        clearInterval(interval);
-        globalThis.removeEventListener("beforeunload", stopTracking);
-      };
-
-      globalThis.addEventListener("beforeunload", stopTracking);
+      this.incrementShortsCount();
     }
   }
 
