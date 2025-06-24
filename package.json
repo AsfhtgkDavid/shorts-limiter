@@ -30,11 +30,13 @@
   "engines": {
     "node": ">=14.0.0"
   },
+  "dependencies": {
+    "glob": "^11.0.3"
+  },
   "devDependencies": {
     "@types/chrome": "^0.0.326",
     "@types/webextension-polyfill": "^0.12.3",
     "esbuild": "^0.25.5",
-    "esbuild-plugin-copy": "^2.1.1",
     "webextension-polyfill": "^0.12.0"
   }
 }
