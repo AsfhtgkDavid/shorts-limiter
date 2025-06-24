@@ -37,6 +37,7 @@ class ShortsLimiter {
     ]);
     this.maxShorts = result.maxShorts || 5;
     this.enabled = result.enabled !== false;
+    await ext.runtime.sendMessage({ type: "UPDATE_BADGE" });
     console.log(
       `Settings loaded: maxShorts=${this.maxShorts}, enabled=${this.enabled}`,
     );
@@ -71,6 +72,10 @@ class ShortsLimiter {
     this.shortsCount++;
     await this.saveShortsCount();
     console.log(`Shorts count increased to: ${this.shortsCount}`);
+    await ext.runtime.sendMessage({
+      type: "UPDATE_BADGE",
+      maxShorts: this.maxShorts,
+    });
 
     if (this.shortsCount >= this.maxShorts) {
       this.blockShorts();
