@@ -26,7 +26,8 @@
     }
   ],
   "background": {
-    "scripts": ["background.js"]
+    "scripts": ["background.js"],
+    "type": "module"
   },
   "action": {
     "default_popup": "popup.html",
