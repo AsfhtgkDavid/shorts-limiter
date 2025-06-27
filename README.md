@@ -13,6 +13,21 @@ A Firefox extension that limits YouTube Shorts viewing to 5 videos per day.
 
 ## Installation
 
+### Stable version (recommended)
+
+You can install the stable version of the extension directly from the Mozilla Add-ons store:
+
+- [Shorts Limiter on Firefox Add-ons](https://addons.mozilla.org/addon/shorts-limiter/)
+
+Just click "Add to Firefox" and follow the instructions.
+
+#### Chrome and Firefox (signed .xpi for Firefox)
+
+In the [Releases](https://github.com/AsfhtgkDavid/shorts-limiter/releases) section of the repository, you will find ready-made extension packages:
+
+- **For Firefox:** A signed `.xpi` file is available, which can be installed directly via `about:addons` or simply by dragging it into the Firefox browser window.
+- **For Chrome:** Download the `.zip` archive, extract it, and load the folder as an unpacked extension via `chrome://extensions` (enable Developer mode).
+
 ### Temporary installation (for development)
 
 1. Open Firefox
@@ -25,22 +40,20 @@ A Firefox extension that limits YouTube Shorts viewing to 5 videos per day.
 
 ### Building
 
-Make sure you have Deno installed before starting building
+Make sure you have Deno installed before starting building.
 
-To build the extension:
+To build the extension yourself, there are two scripts available:
+- `build_firefox.sh` — builds a package for Firefox
+- `build_chrome.sh` — builds a package for Chrome
 
-```bash
-# Make build script executable
-chmod +x build.sh
-
-# Build the extension
-./build.sh
-```
-
-Or using npm:
+You can run these scripts from the project root to generate the corresponding extension packages:
 
 ```bash
-npm run build
+# For Firefox
+./build_firefox.sh
+
+# For Chrome
+./build_chrome.sh
 ```
 
 ### Development Setup
