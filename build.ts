@@ -43,6 +43,8 @@ assetStream.stream().on("data", async (path) => {
   await Deno.copyFile(path.fullpath(), `${distDir}/${path.name}`);
 });
 
-copy(`${srcDir}/images/`, `${distDir}/images/`, { overwrite: true });
+await copy(`${srcDir}/images/`, `${distDir}/images/`, { overwrite: true });
+
+await copy(`${srcDir}/_locales/`, `${distDir}/_locales/`, { overwrite: true });
 
 await esbuild.stop();

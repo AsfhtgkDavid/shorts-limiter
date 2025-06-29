@@ -30,7 +30,7 @@ ext.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
       const result = value as Record<string, string>;
       const maxShorts = Number(result.maxShorts) || 5;
       const watched = Number(result[today]) || 0;
-      const count = (maxShorts - watched) || 5;
+      const count = maxShorts - watched;
       ext.action.setBadgeText({ text: count.toString() });
       sendResponse({ success: true });
     });

@@ -125,24 +125,30 @@
 
     <div class="stats">
       <div>
-        Watched today: <span id="shorts-count">0</span> / <span id="max-shorts"
-        >5</span>
+        <span data-i18n="watchedToday"> Watched today: </span>
+        <span id="shorts-count">0</span> /
+        <span id="max-shorts">5</span>
       </div>
       <div class="progress-bar">
         <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
       </div>
-      <div id="status-text">You can watch Shorts</div>
+      <div data-i18n="statusCanWatchShorts" id="status-text">
+        You can watch Shorts
+      </div>
     </div>
 
     <div class="controls">
       <div class="control-group">
-        <label for="max-shorts-input">Daily Shorts limit:</label>
+        <label data-i18n="dailyShortsLimit" for="max-shorts-input"
+        >Daily Shorts limit:</label>
         <input type="number" id="max-shorts-input" min="1" max="50" value="5">
       </div>
 
       <div class="control-group">
-        <button id="reset-btn">Reset Counter</button>
-        <button id="toggle-btn">Enable/Disable</button>
+        <button data-i18n="resetCounter" id="reset-btn">Reset Counter</button>
+        <button data-i18n="enableDisable" id="toggle-btn">
+          Enable/Disable
+        </button>
       </div>
     </div>
 

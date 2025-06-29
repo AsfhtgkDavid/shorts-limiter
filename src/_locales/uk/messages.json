@@ -1,0 +1,62 @@
+{
+  "close": {
+    "message": "Закрити"
+  },
+  "goToYoutubeHome": {
+    "message": "Перейти на головну YouTube"
+  },
+  "watchedToday": {
+    "message": "Переглянуто сьогодні: "
+  },
+  "statusCanWatchShorts": {
+    "message": "Ви можете дивитися Shorts"
+  },
+  "statusAlmostAtLimit": {
+    "message": "Майже досягнуто ліміту"
+  },
+  "statusLimitReached": {
+    "message": "Ліміт Shorts досягнуто!"
+  },
+  "limitWillResetTomorrow": {
+    "message": "Ліміт скинеться завтра. Спробуйте подивитися звичайні відео на YouTube!"
+  },
+  "dailyShortsLimit": {
+    "message": "Денний ліміт Shorts: "
+  },
+  "disable": {
+    "message": "Вимкнути"
+  },
+  "enable": {
+    "message": "Увімкнути"
+  },
+  "resetCounter": {
+    "message": "Скинути лічильник"
+  },
+  "enableDisable": {
+    "message": "Увімкнути/Вимкнути"
+  },
+  "extensionDisabled": {
+    "message": "Розширення вимкнено"
+  },
+  "extensionEnabled": {
+    "message": "Розширення увімкнено"
+  },
+  "youWatchedShortsCount": {
+    "message": "Сьогодні ви переглянули $count$ Shorts на YouTube.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "5"
+      }
+    },
+    "limitCount": {
+      "message": "Ліміт: $count$ відео на день.",
+      "placeholders": {
+        "count": {
+          "content": "$1",
+          "example": "5"
+        }
+      }
+    }
+  }
+}
