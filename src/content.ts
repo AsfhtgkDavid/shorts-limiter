@@ -4,6 +4,7 @@ import browser from "webextension-polyfill";
 import type { Message, Settings } from "./types.ts";
 
 const ext = (typeof chrome !== "undefined" ? chrome : browser) as typeof chrome;
+const getMessage = ext.i18n.getMessage;
 
 class ShortsLimiter {
   shortsCount = 0;
@@ -90,6 +91,11 @@ class ShortsLimiter {
 
     // Создаем блокирующий экран
     const blocker = document.createElement("div");
+    const youWatchedShorts = getMessage(
+      "youWatchedShortsCount",
+      this.shortsCount.toString(),
+    );
+    const shortsLimit = getMessage("limitCount", this.maxShorts.toString());
     blocker.id = "shorts-limiter-blocker";
     blocker.innerHTML = `
       <div style="
@@ -109,15 +115,15 @@ class ShortsLimiter {
         text-align: center;
       ">
         <div style="font-size: 48px; margin-bottom: 20px;">🚫</div>
-        <h1 style="font-size: 32px; margin-bottom: 20px;">Shorts Limit Reached!</h1>
+        <h1 data-i18n="statusLimitReached" style="font-size: 32px; margin-bottom: 20px;"></h1>
         <p style="font-size: 18px; margin-bottom: 30px;">
-          You've watched ${this.shortsCount} YouTube Shorts today.<br>
-          Limit: ${this.maxShorts} videos per day.
+          ${youWatchedShorts}<br>
+          ${shortsLimit}
         </p>
-        <p style="font-size: 16px; color: #ccc; margin-bottom: 30px;">
+        <p data-i18n="limitWillResetTomorrow"style="font-size: 16px; color: #ccc; margin-bottom: 30px;">
           The limit will reset tomorrow. Try watching regular videos on YouTube!
         </p>
-        <button id="shorts-limiter-home" style="
+        <button id="shorts-limiter-home" data-i18n="goToYoutubeHome" style="
           margin: 10px;
           padding: 12px 24px;
           background: #ff0000;
@@ -127,8 +133,8 @@ class ShortsLimiter {
           font-size: 16px;
           cursor: pointer;
           transition: background 0.3s;
-        ">Go to YouTube Home</button>
-        <button id="shorts-limiter-close" style="
+        "></button>
+        <button id="shorts-limiter-close" data-i18n="close" style="
           margin: 10px;
           padding: 12px 24px;
           background: #333;
@@ -141,6 +147,14 @@ class ShortsLimiter {
         ">Close</button>
       </div>
     `;
+
+    blocker.querySelectorAll("[data-i18n]").forEach((elem) => {
+      const element = elem as HTMLElement;
+      const i18n = element.dataset.i18n;
+      if (!i18n) return;
+      const text = getMessage(i18n);
+      element.innerText = text;
+    });
 
     document.body.appendChild(blocker);
 

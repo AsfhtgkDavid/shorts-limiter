@@ -1,0 +1,62 @@
+{
+  "close": {
+    "message": "Закрыть"
+  },
+  "goToYoutubeHome": {
+    "message": "Перейти на главную YouTube"
+  },
+  "watchedToday": {
+    "message": "Просмотрено сегодня: "
+  },
+  "statusCanWatchShorts": {
+    "message": "Вы можете смотреть Shorts"
+  },
+  "statusAlmostAtLimit": {
+    "message": "Почти достигнут лимит"
+  },
+  "statusLimitReached": {
+    "message": "Лимит Shorts достигнут!"
+  },
+  "limitWillResetTomorrow": {
+    "message": "Лимит сбросится завтра. Попробуйте посмотреть обычные видео на YouTube!"
+  },
+  "dailyShortsLimit": {
+    "message": "Дневной лимит Shorts: "
+  },
+  "disable": {
+    "message": "Отключить"
+  },
+  "enable": {
+    "message": "Включить"
+  },
+  "resetCounter": {
+    "message": "Сбросить счетчик"
+  },
+  "enableDisable": {
+    "message": "Включить/Отключить"
+  },
+  "extensionDisabled": {
+    "message": "Расширение отключено"
+  },
+  "extensionEnabled": {
+    "message": "Расширение включено"
+  },
+  "youWatchedShortsCount": {
+    "message": "Сегодня вы посмотрели $count$ Shorts на YouTube.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "5"
+      }
+    },
+    "limitCount": {
+      "message": "Лимит: $count$ видео в день.",
+      "placeholders": {
+        "count": {
+          "content": "$1",
+          "example": "5"
+        }
+      }
+    }
+  }
+}

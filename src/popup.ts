@@ -7,6 +7,8 @@ import type { GenericSettings, Settings } from "./types.ts";
 const ext =
   (typeof chrome !== "undefined" ? chrome : browser) as typeof browser;
 
+const getMessage = ext.i18n.getMessage;
+
 class PopupManager {
   shortsCount = 0;
   maxShorts = 5;
@@ -17,6 +19,7 @@ class PopupManager {
 
   async init() {
     await this.loadData();
+    this.loadTranslations();
     this.setupEventListeners();
     this.updateUI();
   }
@@ -38,6 +41,16 @@ class PopupManager {
     await ext.storage.local.set({
       maxShorts: this.maxShorts,
       enabled: this.enabled,
+    });
+  }
+
+  loadTranslations() {
+    document.querySelectorAll("[data-i18n]").forEach((elem) => {
+      const element = elem as HTMLElement;
+      const i18n = element.dataset.i18n;
+      if (!i18n) return;
+      const text = getMessage(i18n);
+      element.innerText = text;
     });
   }
 
@@ -146,13 +159,13 @@ class PopupManager {
     // Обновляем статус
     const statusText = document.getElementById("status-text") as HTMLDivElement;
     if (this.shortsCount >= this.maxShorts) {
-      statusText.textContent = "Limit reached!";
+      statusText.textContent = getMessage("statusLimitReached");
       statusText.style.color = "#f44336";
     } else if (this.shortsCount >= this.maxShorts * 0.8) {
-      statusText.textContent = "Almost at limit";
+      statusText.textContent = getMessage("statusAlmostAtLimit");
       statusText.style.color = "#FF9800";
     } else {
-      statusText.textContent = "You can watch Shorts";
+      statusText.textContent = getMessage("statusCanWatchShorts");
       statusText.style.color = "#4CAF50";
     }
 
@@ -161,10 +174,10 @@ class PopupManager {
       "extension-status",
     ) as HTMLDivElement;
     if (this.enabled) {
-      extensionStatus.textContent = "Extension is active";
+      extensionStatus.textContent = getMessage("extensionEnabled");
       extensionStatus.className = "status enabled";
     } else {
-      extensionStatus.textContent = "Extension is disabled";
+      extensionStatus.textContent = getMessage("extensionDisabled");
       extensionStatus.className = "status disabled";
     }
 
@@ -172,7 +185,9 @@ class PopupManager {
     const toggleBtn = document.getElementById(
       "toggle-btn",
     ) as HTMLButtonElement;
-    toggleBtn.textContent = this.enabled ? "Disable" : "Enable";
+    const disable = getMessage("disable");
+    const enable = getMessage("enable");
+    toggleBtn.textContent = this.enabled ? disable : enable;
     toggleBtn.className = this.enabled ? "" : "danger";
   }
 }

@@ -3,6 +3,7 @@
   "name": "YouTube Shorts Limiter",
   "version": "1.0.0",
   "description": "Limits YouTube Shorts viewing to 5 videos per day",
+  "default_locale": "en",
   "icons": {
     "16": "images/icon-16.png",
     "32": "images/icon-32.png",

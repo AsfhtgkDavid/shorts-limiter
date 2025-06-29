@@ -1,0 +1,62 @@
+{
+  "close": {
+    "message": "Close"
+  },
+  "goToYoutubeHome": {
+    "message": "Go to YouTube Home"
+  },
+  "watchedToday": {
+    "message": "Watched today: "
+  },
+  "statusCanWatchShorts": {
+    "message": "You can watch Shorts"
+  },
+  "statusAlmostAtLimit": {
+    "message": "Almost at limit"
+  },
+  "statusLimitReached": {
+    "message": "Shorts Limit Reached!"
+  },
+  "limitWillResetTomorrow": {
+    "message": "The limit will reset tomorrow. Try watching regular videos on YouTube!"
+  },
+  "dailyShortsLimit": {
+    "message": "Daily Shorts limit: "
+  },
+  "disable": {
+    "message": "Disable"
+  },
+  "enable": {
+    "message": "Enable"
+  },
+  "resetCounter": {
+    "message": "Reset Counter"
+  },
+  "enableDisable": {
+    "message": "Enable/Disable"
+  },
+  "extensionDisabled": {
+    "message": "Extension is disabled"
+  },
+  "extensionEnabled": {
+    "message": "Extension is enabled"
+  },
+  "youWatchedShortsCount": {
+    "message": "You've watched $count$ YouTube Shorts today.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "5"
+      }
+    },
+    "limitCount": {
+      "message": "Limit: $count$ videos per day.",
+      "placeholders": {
+        "count": {
+          "content": "$1",
+          "example": "5"
+        }
+      }
+    }
+  }
+}
