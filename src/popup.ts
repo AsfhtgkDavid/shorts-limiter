@@ -82,9 +82,14 @@ class PopupManager {
     );
 
     setInterval(async () => {
-      await this.loadData();
-      this.updateUI();
-      console.log("Refreshed data");
+      try {
+        await this.loadData();
+        this.updateUI();
+        console.log("Refreshed data");
+      } catch (err) {
+        console.error(err);
+        console.log("Failed to refresh data");
+      }
     }, 2000);
   }
 
