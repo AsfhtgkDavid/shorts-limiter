@@ -1,11 +1,13 @@
 /// <reference types="chrome"/>
 // // YouTube Shorts Limiter - Popup Script
 
-import browser from "webextension-polyfill";
 import type { GenericSettings, Settings } from "./types.ts";
+import type Browser from "webextension-polyfill";
+
+declare const browser: typeof Browser;
 
 const ext =
-  (typeof chrome !== "undefined" ? chrome : browser) as typeof browser;
+  (typeof chrome !== "undefined" ? chrome : browser) as typeof Browser;
 
 const getMessage = ext.i18n.getMessage;
 
@@ -81,9 +83,15 @@ class PopupManager {
       },
     );
 
-    setInterval(() => {
-      this.loadData();
-      console.log("Refreshed data");
+    setInterval(async () => {
+      try {
+        await this.loadData();
+        this.updateUI();
+        console.log("Refreshed data");
+      } catch (err) {
+        console.error(err);
+        console.log("Failed to refresh data");
+      }
     }, 2000);
   }
 

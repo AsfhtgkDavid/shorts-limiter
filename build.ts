@@ -3,6 +3,20 @@ import { Glob } from "glob";
 import esbuild from "esbuild";
 import { copy } from "jsr:@std/fs";
 
+async function globCopy(glob: Glob<{ withFileTypes: true }>, dist: string) {
+  for await (const path of glob) {
+    console.log(path.fullpath());
+    try {
+      await Deno.copyFile(path.fullpath(), `${dist}/${path.name}`);
+    } catch (err) {
+      console.error(
+        `Failed to copy ${path.fullpath()} to ${dist}/${path.name}`,
+      );
+      throw err;
+    }
+  }
+}
+
 const srcDir = "src";
 const distDir = "dist";
 
@@ -32,18 +46,23 @@ await esbuild.build({
   legalComments: "eof",
 });
 
-const assetStream = new Glob([
-  `${srcDir}/*.html`,
-  `${srcDir}/*.css`,
-  `${srcDir}/*.json`,
-], {
-  withFileTypes: true,
-});
-assetStream.stream().on("data", async (path) => {
-  await Deno.copyFile(path.fullpath(), `${distDir}/${path.name}`);
-});
+Deno.mkdir("dist/images", { recursive: true });
 
-await copy(`${srcDir}/images/`, `${distDir}/images/`, { overwrite: true });
+await globCopy(
+  new Glob([
+    `${srcDir}/*.html`,
+    `${srcDir}/*.css`,
+    `${srcDir}/*.json`,
+  ], {
+    withFileTypes: true,
+  }),
+  `${distDir}/`,
+);
+
+await globCopy(
+  new Glob([`${srcDir}/images/*-*.png`], { withFileTypes: true }),
+  `${distDir}/images`,
+);
 
 await copy(`${srcDir}/_locales/`, `${distDir}/_locales/`, { overwrite: true });
 
