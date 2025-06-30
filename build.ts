@@ -5,7 +5,7 @@ import { copy } from "jsr:@std/fs";
 
 async function globCopy(glob: Glob<{ withFileTypes: true }>, dist: string) {
   for await (const path of glob) {
-    console.log(path.fullpath())
+    console.log(path.fullpath());
     await Deno.copyFile(path.fullpath(), `${dist}/${path.name}`);
   }
 }

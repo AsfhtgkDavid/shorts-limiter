@@ -83,6 +83,7 @@ class PopupManager {
 
     setInterval(() => {
       this.loadData();
+      this.updateUI();
       console.log("Refreshed data");
     }, 2000);
   }
