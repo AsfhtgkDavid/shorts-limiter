@@ -3,11 +3,11 @@ import { Glob } from "glob";
 import esbuild from "esbuild";
 import { copy } from "jsr:@std/fs";
 
-function globCopy(glob: Glob<{ withFileTypes: true }>, dist: string) {
-  glob.stream().on("data", async (path) => {
+async function globCopy(glob: Glob<{ withFileTypes: true }>, dist: string) {
+  for await (const path of glob) {
     console.log(path.fullpath())
     await Deno.copyFile(path.fullpath(), `${dist}/${path.name}`);
-  });
+  }
 }
 
 const srcDir = "src";
@@ -41,7 +41,7 @@ await esbuild.build({
 
 Deno.mkdir("dist/images", { recursive: true });
 
-globCopy(
+await globCopy(
   new Glob([
     `${srcDir}/*.html`,
     `${srcDir}/*.css`,
@@ -52,7 +52,7 @@ globCopy(
   `${distDir}/`,
 );
 
-globCopy(
+await globCopy(
   new Glob([`${srcDir}/images/*-*.png`], { withFileTypes: true }),
   `${distDir}/images`,
 );
