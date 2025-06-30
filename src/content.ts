@@ -1,7 +1,10 @@
 // deno-lint-ignore-file require-await
 // YouTube Shorts Limiter - Content Script
-import browser from "webextension-polyfill";
+
+import type Browser from "webextension-polyfill";
 import type { Message, Settings } from "./types.ts";
+
+declare const browser: typeof Browser;
 
 const ext = (typeof chrome !== "undefined" ? chrome : browser) as typeof chrome;
 const getMessage = ext.i18n.getMessage;

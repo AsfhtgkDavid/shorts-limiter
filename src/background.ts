@@ -1,8 +1,10 @@
 /// <reference types="chrome"/>
 // YouTube Shorts Limiter - Background Script
 
-import browser from "webextension-polyfill";
+import type Browser from "webextension-polyfill";
 import type { Message } from "./types.ts";
+
+declare const browser: typeof Browser;
 
 // Кросс-браузерный доступ к API
 const ext =

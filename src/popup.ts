@@ -1,11 +1,13 @@
 /// <reference types="chrome"/>
 // // YouTube Shorts Limiter - Popup Script
 
-import browser from "webextension-polyfill";
 import type { GenericSettings, Settings } from "./types.ts";
+import type Browser from "webextension-polyfill";
+
+declare const browser: typeof Browser;
 
 const ext =
-  (typeof chrome !== "undefined" ? chrome : browser) as typeof browser;
+  (typeof chrome !== "undefined" ? chrome : browser) as typeof Browser;
 
 const getMessage = ext.i18n.getMessage;
 
