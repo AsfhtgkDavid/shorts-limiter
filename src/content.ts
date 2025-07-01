@@ -94,7 +94,7 @@ class ShortsLimiter {
 
     // Создаем блокирующий экран
     const blocker = document.createElement("div");
-    blocker.style = `
+    blocker.style.cssText = `
       position: fixed;
       top: 0;
       left: 0;
@@ -113,13 +113,13 @@ class ShortsLimiter {
 
     const blockEmoji = document.createElement("div");
     blockEmoji.innerText = "🚫";
-    blockEmoji.style = `
+    blockEmoji.style.cssText = `
       font-size: 48px;
       margin-bottom: 20px;`;
 
     const limitReachedText = document.createElement("h1");
     limitReachedText.dataset.i18n = "statusLimitReached";
-    limitReachedText.style = `
+    limitReachedText.style.cssText = `
       font-size: 32px;
       margin-bottom: 20px;`;
 
@@ -129,14 +129,14 @@ class ShortsLimiter {
       this.shortsCount.toString(),
     );
     const shortsLimit = getMessage("limitCount", this.maxShorts.toString());
-    shortsCount.innerText = `${youWatchedShorts} <br> ${shortsLimit}`;
-    shortsCount.style = `
+    shortsCount.innerText = `${youWatchedShorts}\n${shortsLimit}`;
+    shortsCount.style.cssText = `
       font-size: 18px;
       margin-bottom: 30px;`;
 
     const limitWillResetTomorrow = document.createElement("p");
     limitWillResetTomorrow.dataset.i18n = "limitWillResetTomorrow";
-    limitWillResetTomorrow.style = `
+    limitWillResetTomorrow.style.cssText = `
       font-size: 16px;
       color: #ccc;
       margin-bottom: 30px;`;
@@ -144,7 +144,7 @@ class ShortsLimiter {
     const youtubeHomeButton = document.createElement("button");
     youtubeHomeButton.id = "shorts-limiter-home";
     youtubeHomeButton.dataset.i18n = "goToYoutubeHome";
-    youtubeHomeButton.style = `
+    youtubeHomeButton.style.cssText = `
       margin: 10px;
       padding: 12px 24px;
       background: #ff0000;
@@ -158,7 +158,7 @@ class ShortsLimiter {
     const closePopupButton = document.createElement("button");
     closePopupButton.id = "shorts-limiter-close";
     closePopupButton.dataset.i18n = "close";
-    closePopupButton.style = `
+    closePopupButton.style.cssText = `
       margin: 10px;
       padding: 12px 24px;
       background: #333;

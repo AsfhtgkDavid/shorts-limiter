@@ -27,7 +27,6 @@ await esbuild.build({
     `${srcDir}/background.ts`,
     `${srcDir}/content.ts`,
     `${srcDir}/popup.ts`,
-    `${srcDir}/content.ts`,
   ],
   outdir: distDir,
   bundle: true,
