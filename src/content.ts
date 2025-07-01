@@ -94,62 +94,89 @@ class ShortsLimiter {
 
     // Создаем блокирующий экран
     const blocker = document.createElement("div");
+    blocker.style = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 999999;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;`;
+    blocker.id = "shorts-limiter-blocker";
+
+    const blockEmoji = document.createElement("div");
+    blockEmoji.innerText = "🚫";
+    blockEmoji.style = `
+      font-size: 48px;
+      margin-bottom: 20px;`;
+
+    const limitReachedText = document.createElement("h1");
+    limitReachedText.dataset.i18n = "statusLimitReached";
+    limitReachedText.style = `
+      font-size: 32px;
+      margin-bottom: 20px;`;
+
+    const shortsCount = document.createElement("p");
     const youWatchedShorts = getMessage(
       "youWatchedShortsCount",
       this.shortsCount.toString(),
     );
     const shortsLimit = getMessage("limitCount", this.maxShorts.toString());
-    blocker.id = "shorts-limiter-blocker";
-    blocker.innerHTML = `
-      <div style="
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background: rgba(0, 0, 0, 0.9);
-        z-index: 999999;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        color: white;
-        font-family: Arial, sans-serif;
-        text-align: center;
-      ">
-        <div style="font-size: 48px; margin-bottom: 20px;">🚫</div>
-        <h1 data-i18n="statusLimitReached" style="font-size: 32px; margin-bottom: 20px;"></h1>
-        <p style="font-size: 18px; margin-bottom: 30px;">
-          ${youWatchedShorts}<br>
-          ${shortsLimit}
-        </p>
-        <p data-i18n="limitWillResetTomorrow"style="font-size: 16px; color: #ccc; margin-bottom: 30px;">
-          The limit will reset tomorrow. Try watching regular videos on YouTube!
-        </p>
-        <button id="shorts-limiter-home" data-i18n="goToYoutubeHome" style="
-          margin: 10px;
-          padding: 12px 24px;
-          background: #ff0000;
-          color: white;
-          border: none;
-          border-radius: 8px;
-          font-size: 16px;
-          cursor: pointer;
-          transition: background 0.3s;
-        "></button>
-        <button id="shorts-limiter-close" data-i18n="close" style="
-          margin: 10px;
-          padding: 12px 24px;
-          background: #333;
-          color: white;
-          border: none;
-          border-radius: 8px;
-          font-size: 16px;
-          cursor: pointer;
-          transition: background 0.3s;
-        ">Close</button>
-      </div>
-    `;
+    shortsCount.innerText = `${youWatchedShorts} <br> ${shortsLimit}`;
+    shortsCount.style = `
+      font-size: 18px;
+      margin-bottom: 30px;`;
+
+    const limitWillResetTomorrow = document.createElement("p");
+    limitWillResetTomorrow.dataset.i18n = "limitWillResetTomorrow";
+    limitWillResetTomorrow.style = `
+      font-size: 16px;
+      color: #ccc;
+      margin-bottom: 30px;`;
+
+    const youtubeHomeButton = document.createElement("button");
+    youtubeHomeButton.id = "shorts-limiter-home";
+    youtubeHomeButton.dataset.i18n = "goToYoutubeHome";
+    youtubeHomeButton.style = `
+      margin: 10px;
+      padding: 12px 24px;
+      background: #ff0000;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;`;
+
+    const closePopupButton = document.createElement("button");
+    closePopupButton.id = "shorts-limiter-close";
+    closePopupButton.dataset.i18n = "close";
+    closePopupButton.style = `
+      margin: 10px;
+      padding: 12px 24px;
+      background: #333;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;`;
+
+    blocker.append(
+      blockEmoji,
+      limitReachedText,
+      shortsCount,
+      limitWillResetTomorrow,
+      youtubeHomeButton,
+      closePopupButton,
+    );
 
     blocker.querySelectorAll("[data-i18n]").forEach((elem) => {
       const element = elem as HTMLElement;

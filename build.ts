@@ -27,20 +27,8 @@ await esbuild.build({
     `${srcDir}/background.ts`,
     `${srcDir}/content.ts`,
     `${srcDir}/popup.ts`,
+    `${srcDir}/content.ts`,
   ],
-  outdir: distDir,
-  bundle: true,
-  legalComments: "eof",
-  splitting: true,
-  format: "esm",
-  chunkNames: "deps",
-});
-
-// content scripts are not supported as esm modules
-await esbuild.build({
-  sourcemap: false,
-  platform: "browser",
-  entryPoints: [`${srcDir}/content.ts`],
   outdir: distDir,
   bundle: true,
   legalComments: "eof",
