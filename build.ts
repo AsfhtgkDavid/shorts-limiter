@@ -31,19 +31,6 @@ await esbuild.build({
   outdir: distDir,
   bundle: true,
   legalComments: "eof",
-  splitting: true,
-  format: "esm",
-  chunkNames: "deps",
-});
-
-// content scripts are not supported as esm modules
-await esbuild.build({
-  sourcemap: false,
-  platform: "browser",
-  entryPoints: [`${srcDir}/content.ts`],
-  outdir: distDir,
-  bundle: true,
-  legalComments: "eof",
 });
 
 Deno.mkdir("dist/images", { recursive: true });
