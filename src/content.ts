@@ -178,8 +178,7 @@ class ShortsLimiter {
       closePopupButton,
     );
 
-    blocker.querySelectorAll("[data-i18n]").forEach((elem) => {
-      const element = elem as HTMLElement;
+    blocker.querySelectorAll<HTMLElement>("[data-i18n]").forEach((element) => {
       const i18n = element.dataset.i18n;
       if (!i18n) return;
       const text = getMessage(i18n);
