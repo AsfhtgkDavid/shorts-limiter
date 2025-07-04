@@ -15,6 +15,7 @@ class PopupManager {
   shortsCount = 0;
   maxShorts = 5;
   enabled = false;
+  badgeEnabled = false;
   constructor() {
     this.init();
   }
@@ -32,11 +33,13 @@ class PopupManager {
       today,
       "maxShorts",
       "enabled",
+      "badgeEnabled",
     ]) as unknown as Settings & GenericSettings;
 
     this.shortsCount = Number(result[today]) || 0;
     this.maxShorts = result.maxShorts || 5;
     this.enabled = result.enabled !== false; // По умолчанию включено
+    this.badgeEnabled = result.badgeEnabled;
   }
 
   async saveData() {

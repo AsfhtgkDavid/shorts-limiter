@@ -1,10 +1,11 @@
 {
   "version": "5",
   "specifiers": {
-    "jsr:@std/fs@*": "1.0.18",
-    "jsr:@std/fs@^1.0.18": "1.0.18",
-    "jsr:@std/path@^1.1.0": "1.1.0",
-    "npm:@types/chrome@^0.0.326": "0.0.326",
+    "jsr:@std/fs@*": "1.0.19",
+    "jsr:@std/fs@^1.0.19": "1.0.19",
+    "jsr:@std/internal@^1.0.9": "1.0.9",
+    "jsr:@std/path@^1.1.1": "1.1.1",
+    "npm:@types/chrome@^0.0.329": "0.0.329",
     "npm:@types/node@*": "22.15.15",
     "npm:@types/webextension-polyfill@~0.12.3": "0.12.3",
     "npm:esbuild@~0.25.5": "0.25.5",
@@ -12,14 +13,21 @@
     "npm:webextension-polyfill@0.12": "0.12.0"
   },
   "jsr": {
-    "@std/fs@1.0.18": {
-      "integrity": "24bcad99eab1af4fde75e05da6e9ed0e0dce5edb71b7e34baacf86ffe3969f3a",
+    "@std/fs@1.0.19": {
+      "integrity": "051968c2b1eae4d2ea9f79a08a3845740ef6af10356aff43d3e2ef11ed09fb06",
       "dependencies": [
+        "jsr:@std/internal",
         "jsr:@std/path"
       ]
     },
-    "@std/path@1.1.0": {
-      "integrity": "ddc94f8e3c275627281cbc23341df6b8bcc874d70374f75fec2533521e3d6886"
+    "@std/internal@1.0.9": {
+      "integrity": "bdfb97f83e4db7a13e8faab26fb1958d1b80cc64366501af78a0aee151696eb8"
+    },
+    "@std/path@1.1.1": {
+      "integrity": "fe00026bd3a7e6a27f73709b83c607798be40e20c81dde655ce34052fd82ec76",
+      "dependencies": [
+        "jsr:@std/internal"
+      ]
     }
   },
   "npm": {
@@ -168,8 +176,8 @@
         "wrap-ansi-cjs@npm:wrap-ansi@7.0.0"
       ]
     },
-    "@types/chrome@0.0.326": {
-      "integrity": "sha512-WS7jKf3ZRZFHOX7dATCZwqNJgdfiSF0qBRFxaO0LhIOvTNBrfkab26bsZwp6EBpYtqp8loMHJTnD6vDTLWPKYw==",
+    "@types/chrome@0.0.329": {
+      "integrity": "sha512-jAZX4QMnAa1bTSWoQ5/EhhiY1t+1B7a5ZCY5ZEs61tWiQfxXAkfBSxCkQWhGxJoiq/4b4vtcmYEebNEmlLKecg==",
       "dependencies": [
         "@types/filesystem",
         "@types/har-format"
@@ -397,11 +405,11 @@
   },
   "workspace": {
     "dependencies": [
-      "jsr:@std/fs@^1.0.18"
+      "jsr:@std/fs@^1.0.19"
     ],
     "packageJson": {
       "dependencies": [
-        "npm:@types/chrome@^0.0.326",
+        "npm:@types/chrome@^0.0.329",
         "npm:@types/webextension-polyfill@~0.12.3",
         "npm:esbuild@~0.25.5",
         "npm:glob@^11.0.3",

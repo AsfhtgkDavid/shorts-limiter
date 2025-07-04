@@ -38,10 +38,13 @@ class ShortsLimiter {
     const result: Settings = await ext.storage.local.get([
       "maxShorts",
       "enabled",
+      "badgeEnabled",
     ]);
     this.maxShorts = result.maxShorts || 5;
     this.enabled = result.enabled !== false;
-    await ext.runtime.sendMessage({ type: "UPDATE_BADGE" });
+    if (result.badgeEnabled) {
+      await ext.runtime.sendMessage({ type: "UPDATE_BADGE" });
+    }
     console.log(
       `Settings loaded: maxShorts=${this.maxShorts}, enabled=${this.enabled}`,
     );
