@@ -58,5 +58,8 @@
         }
       }
     }
+  },
+  "enableBadge": {
+    "message": "Enable counter displaying on extension's badge"
   }
 }
