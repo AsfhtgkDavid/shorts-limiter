@@ -46,6 +46,7 @@ class PopupManager {
     await ext.storage.local.set({
       maxShorts: this.maxShorts,
       enabled: this.enabled,
+      badgeEnabled: this.badgeEnabled,
     });
   }
 
@@ -74,6 +75,17 @@ class PopupManager {
     document.getElementById("toggle-btn")?.addEventListener("click", () => {
       this.toggleExtension();
     });
+
+    document.getElementById("enable-badge")?.addEventListener(
+      "click",
+      async (event) => {
+        const element = event.target as HTMLInputElement;
+        this.badgeEnabled = element.checked;
+        await this.saveData();
+        const message = element.checked ? "UPDATE_BADGE" : "CLEAR_BADGE";
+        await ext.runtime.sendMessage({ type: message });
+      },
+    );
 
     // Поле ввода лимита
     document.getElementById("max-shorts-input")?.addEventListener(
@@ -146,11 +158,15 @@ class PopupManager {
     const maxShortsInputElement = document.getElementById(
       "max-shorts-input",
     ) as HTMLInputElement;
+    const badgeEnableElement = document.getElementById(
+      "enable-badge",
+    ) as HTMLInputElement;
 
     // Обновляем счетчики
     shortsCountElement.textContent = this.shortsCount.toString();
     maxShortsElement.textContent = this.maxShorts.toString();
     maxShortsInputElement.value = this.maxShorts.toString();
+    badgeEnableElement.checked = this.badgeEnabled;
 
     // Обновляем прогресс-бар
     const progressFill = document.getElementById(

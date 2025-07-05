@@ -7,7 +7,6 @@
         :root {
           --main: rgb(252, 252, 252);
           --background: rgb(239, 240, 241);
-          --block-border: rgb(112, 125, 138);
           --regular-text: rgb(35, 38, 41);
           --green-accent: rgb(39, 174, 96);
           --green-transparent: rgba(39, 174, 96, 0.2);
@@ -25,7 +24,6 @@
         :root {
           --main: rgb(32, 35, 38);
           --background: rgb(41, 44, 48);
-          --block-border: rgb(161, 169, 177);
           --regular-text: rgb(252, 252, 252);
           --green-accent: rgb(39, 174, 96);
           --green-transparent: rgba(39, 174, 96, 0.2);
@@ -65,13 +63,24 @@
         padding: 15px;
         margin-bottom: 15px;
         border: 1px solid var(--default-border);
-        /*box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);*/
+      }
+
+      .settings {
+        background: var(--main);
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 10px;
+        border: 1px solid var(--default-border);
+      }
+
+      .badge-text {
+        display: inline;
       }
 
       .progress-bar {
         width: 100%;
         height: 20px;
-        background: var(--input-background);/*#e0e0e0;*/
+        background: var(--input-background);
         border-radius: 10px;
         overflow: hidden;
         margin: 10px 0;
@@ -95,7 +104,8 @@
         background: var(--main);
         border-radius: 8px;
         padding: 15px;
-        border: 1px solid var(--block-border);
+        border: 1px solid var(--default-border);
+        margin-bottom: 15px;
       }
 
       .control-group {
@@ -107,18 +117,23 @@
         margin-bottom: 10px;
       }
 
-      input {
+      input[type="checkbox"] {
+        display: inline;
+        padding: 0;
+      }
+
+      input[type="number"] {
         width: 60px;
         padding: 5px;
         background-color: var(--input-background);
         color: var(--regular-text);
-        border: 1px solid var(--block-border);
+        border: 1px solid var(--default-border);
         border-radius: 4px;
         transition: border-color 0.5s, box-shadow 0.5s;
       }
 
       input:hover {
-        border-color: var(--decoration-hover)
+        border-color: var(--decoration-hover);
       }
 
       input:focus {
@@ -128,7 +143,7 @@
       }
 
       button {
-        background: var(--button-background);/*#2196f3;*/
+        background: var(--button-background);
         color: var(--regular-text);
         border: 1px solid var(--button-background);
         padding: 8px 16px;
@@ -169,9 +184,8 @@
       .status.disabled {
         background: var(--red-transparent);
         color: var(--regular-text);
-        border-color: var(--red-accent)
+        border-color: var(--red-accent);
       }
-
     </style>
   </head>
   <body>
@@ -208,12 +222,16 @@
       </div>
     </div>
 
-    <!--<div class="controls">
+    <div class="settings">
       <div class="control-group">
         <input type="checkbox" id="enable-badge">
-        <label data-i18n="enableBadge" for="enable-badge"></label>
+        <label
+          data-i18n="enableBadge"
+          for="enable-badge"
+          id="badge-text"
+        ></label>
       </div>
-    </div>-->
+    </div>
 
     <div class="status" id="extension-status">
       Extension is disabled

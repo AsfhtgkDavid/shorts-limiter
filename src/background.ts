@@ -11,14 +11,22 @@ const ext =
   (typeof chrome !== "undefined" ? chrome : browser) as typeof browser;
 
 // Обработчик установки расширения
-ext.runtime.onInstalled.addListener((details) => {
+ext.runtime.onInstalled.addListener(async (details) => {
   if (details.reason === "install") {
     console.log("YouTube Shorts Limiter installed");
     // Инициализируем настройки по умолчанию
     ext.storage.local.set({
       maxShorts: 5,
       enabled: true,
+      badgeEnabled: true
     });
+  } else if (details.reason === "update") {
+    const { badgeEnabled } = await ext.storage.local.get([
+      "badgeEnabled",
+    ]) as Record<string, string>;
+    if (badgeEnabled === undefined) {
+      ext.storage.local.set({ badgeEnabled: true })
+    }
   }
 });
 
@@ -36,6 +44,10 @@ ext.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
       ext.action.setBadgeText({ text: count.toString() });
       sendResponse({ success: true });
     });
+  }
+  if (message.type === "CLEAR_BADGE") {
+    ext.action.setBadgeText({ text: null });
+    sendResponse({ success: true });
   }
   if (message.type === "GET_SHORTS_COUNT") {
     const today = getTodayKey();
