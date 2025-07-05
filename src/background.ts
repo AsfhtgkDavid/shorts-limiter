@@ -6,11 +6,11 @@ import type { Message } from "./types.ts";
 
 declare const browser: typeof Browser;
 
-// Кросс-браузерный доступ к API
+// Cross-browser extension API
 const ext =
   (typeof chrome !== "undefined" ? chrome : browser) as typeof browser;
 
-// Обработчик установки расширения
+// extension install handler
 ext.runtime.onInstalled.addListener(async (details) => {
   if (details.reason === "install") {
     console.log("YouTube Shorts Limiter installed");
@@ -30,7 +30,7 @@ ext.runtime.onInstalled.addListener(async (details) => {
   }
 });
 
-// Обработчик сообщений от content script
+// content script message handler
 ext.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
   const message = msg as Message;
 
@@ -70,7 +70,7 @@ function getTodayKey() {
   return `shorts_${today.getFullYear()}_${today.getMonth()}_${today.getDate()}`;
 }
 
-// Используем chrome.alarms вместо setInterval для service worker
+// service worker for cleaning up old data
 ext.alarms.create("cleanupOldData", { periodInMinutes: 60 });
 
 ext.alarms.onAlarm.addListener(async (alarm) => {

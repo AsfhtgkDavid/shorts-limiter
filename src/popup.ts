@@ -1,5 +1,5 @@
 /// <reference types="chrome"/>
-// // YouTube Shorts Limiter - Popup Script
+// YouTube Shorts Limiter - Popup Script
 
 import type { GenericSettings, Settings } from "./types.ts";
 import type Browser from "webextension-polyfill";
@@ -38,7 +38,7 @@ class PopupManager {
 
     this.shortsCount = Number(result[today]) || 0;
     this.maxShorts = result.maxShorts || 5;
-    this.enabled = result.enabled !== false; // По умолчанию включено
+    this.enabled = result.enabled !== false; // by default enabled
     this.badgeEnabled = result.badgeEnabled;
   }
 
@@ -66,12 +66,12 @@ class PopupManager {
   }
 
   setupEventListeners() {
-    // Кнопка сброса счетчика
+    // button for resetting counter
     document.getElementById("reset-btn")?.addEventListener("click", () => {
       this.resetShortsCount();
     });
 
-    // Кнопка включения/выключения
+    // enable/disable button
     document.getElementById("toggle-btn")?.addEventListener("click", () => {
       this.toggleExtension();
     });
@@ -87,7 +87,7 @@ class PopupManager {
       },
     );
 
-    // Поле ввода лимита
+    // number input for limit
     document.getElementById("max-shorts-input")?.addEventListener(
       "change",
       (event) => {
@@ -116,7 +116,7 @@ class PopupManager {
     this.shortsCount = 0;
     this.updateUI();
 
-    // Обновляем счетчик в активной вкладке YouTube
+    // updating counter on opened YouTube tabs
     const tabs = await ext.tabs.query({ url: "*://*.youtube.com/*" });
     for (const tab of tabs) {
       if (!tab.id) continue;
@@ -133,7 +133,7 @@ class PopupManager {
     await this.saveData();
     this.updateUI();
 
-    // Обновляем статус в активных вкладках YouTube
+    // updating status on active YouTube tabs
     const tabs = await ext.tabs.query({ url: "*://*.youtube.com/*" });
     for (const tab of tabs) {
       if (!tab.id) continue;
@@ -162,20 +162,20 @@ class PopupManager {
       "enable-badge",
     ) as HTMLInputElement;
 
-    // Обновляем счетчики
+    // updating counters with saved data
     shortsCountElement.textContent = this.shortsCount.toString();
     maxShortsElement.textContent = this.maxShorts.toString();
     maxShortsInputElement.value = this.maxShorts.toString();
     badgeEnableElement.checked = this.badgeEnabled;
 
-    // Обновляем прогресс-бар
+    // updating progress bar
     const progressFill = document.getElementById(
       "progress-fill",
     ) as HTMLDivElement;
     const percentage = Math.min((this.shortsCount / this.maxShorts) * 100, 100);
     progressFill.style.width = percentage + "%";
 
-    // Обновляем цвет прогресс-бара
+    // updating color of progress bar
     progressFill.className = "progress-fill";
     if (percentage >= 80) {
       progressFill.classList.add("danger");
@@ -183,7 +183,7 @@ class PopupManager {
       progressFill.classList.add("warning");
     }
 
-    // Обновляем статус
+    // updating status text
     const statusText = document.getElementById("status-text") as HTMLDivElement;
     if (this.shortsCount >= this.maxShorts) {
       statusText.textContent = getMessage("statusLimitReached");
@@ -196,7 +196,7 @@ class PopupManager {
       statusText.style.color = "#4CAF50";
     }
 
-    // Обновляем статус расширения
+    // updating extension status
     const extensionStatus = document.getElementById(
       "extension-status",
     ) as HTMLDivElement;
@@ -208,7 +208,7 @@ class PopupManager {
       extensionStatus.className = "status disabled";
     }
 
-    // Обновляем кнопку toggle
+    // updating toggle button status
     const toggleBtn = document.getElementById(
       "toggle-btn",
     ) as HTMLButtonElement;
@@ -219,7 +219,7 @@ class PopupManager {
   }
 }
 
-// Инициализируем popup при загрузке
+// activating popup manager class on page load
 document.addEventListener("DOMContentLoaded", () => {
   new PopupManager();
 });
