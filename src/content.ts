@@ -38,10 +38,13 @@ class ShortsLimiter {
     const result: Settings = await ext.storage.local.get([
       "maxShorts",
       "enabled",
+      "badgeEnabled",
     ]);
     this.maxShorts = result.maxShorts || 5;
     this.enabled = result.enabled !== false;
-    await ext.runtime.sendMessage({ type: "UPDATE_BADGE" });
+    if (result.badgeEnabled) {
+      await ext.runtime.sendMessage({ type: "UPDATE_BADGE" });
+    }
     console.log(
       `Settings loaded: maxShorts=${this.maxShorts}, enabled=${this.enabled}`,
     );
@@ -92,7 +95,7 @@ class ShortsLimiter {
     this.isBlocked = true;
     console.log("Blocking YouTube Shorts - limit reached!");
 
-    // Создаем блокирующий экран
+    // creating a blocking screen
     const blocker = document.createElement("div");
     blocker.style.cssText = `
       position: fixed;
@@ -187,7 +190,7 @@ class ShortsLimiter {
 
     document.body.appendChild(blocker);
 
-    // Обработчик кнопки перехода на главную
+    // youtube home button handler
     document.getElementById("shorts-limiter-home")?.addEventListener(
       "click",
       () => {
@@ -195,7 +198,7 @@ class ShortsLimiter {
       },
     );
 
-    // Обработчик кнопки закрытия
+    // close button handler
     document.getElementById("shorts-limiter-close")?.addEventListener(
       "click",
       () => {
@@ -207,7 +210,7 @@ class ShortsLimiter {
       },
     );
 
-    // Добавляем hover эффекты
+    // adding hover effects
     document.getElementById("shorts-limiter-home")?.addEventListener(
       "mouseenter",
       function () {
@@ -257,7 +260,7 @@ class ShortsLimiter {
       if (message.type === "TOGGLE_EXTENSION") {
         this.enabled = message.enabled || true;
         if (!this.enabled) {
-          // Убираем блокировку если расширение отключено
+          // removing block screen when extension is disabled
           const blocker = document.getElementById("shorts-limiter-blocker");
           if (blocker) {
             blocker.remove();
@@ -284,17 +287,17 @@ class ShortsLimiter {
 
       const checkViewTime = () => {
         const viewTime = Date.now() - startTime;
-        // Увеличиваем счетчик после 5 секунд просмотра
+        // incrementing counter after 5 seconds of watching
         if (viewTime > 5000 && !hasIncremented && this.enabled) {
           hasIncremented = true;
           this.incrementShortsCount();
         }
       };
 
-      // Проверяем каждую секунду
+      // tracking view time every second
       const interval = setInterval(checkViewTime, 1000);
 
-      // Останавливаем отслеживание при уходе со страницы
+      // stopping tracking when user left the page
       const stopTracking = () => {
         clearInterval(interval);
         globalThis.removeEventListener("beforeunload", stopTracking);
@@ -305,7 +308,7 @@ class ShortsLimiter {
   }
 
   observePageChanges() {
-    // Отслеживаем изменения URL для SPA
+    // tracking URL changes for SPA support
     let currentUrl = globalThis.location.href;
 
     const observer = new MutationObserver(() => {
@@ -320,12 +323,12 @@ class ShortsLimiter {
       subtree: true,
     });
 
-    // Также слушаем события popstate для навигации
+    // listening popstate events for navigation
     globalThis.addEventListener("popstate", () => {
       setTimeout(() => this.checkCurrentPage(), 1000);
     });
   }
 }
 
-// Запускаем лимитер
+// starting main limiter class
 const _shortsLimiter = new ShortsLimiter();

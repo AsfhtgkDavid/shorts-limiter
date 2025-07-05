@@ -3,11 +3,47 @@
   <head>
     <meta charset="utf-8">
     <style>
+      @media (prefers-color-scheme: light) {
+        :root {
+          --main: rgb(252, 252, 252);
+          --background: rgb(239, 240, 241);
+          --regular-text: rgb(35, 38, 41);
+          --green-accent: rgb(39, 174, 96);
+          --green-transparent: rgba(39, 174, 96, 0.2);
+          --red-accent: rgb(218, 68, 83);
+          --red-transparent: rgba(218, 68, 83, 0.2);
+          --default-border: rgb(112, 125, 138);
+          --decoration-hover: rgb(61, 174, 233);
+          --button-background: rgb(163, 212, 250);
+          --foreground-link: rgb(41, 128, 185);
+          --input-background: rgb(255, 255, 255);
+        }
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --main: rgb(32, 35, 38);
+          --background: rgb(41, 44, 48);
+          --regular-text: rgb(252, 252, 252);
+          --green-accent: rgb(39, 174, 96);
+          --green-transparent: rgba(39, 174, 96, 0.2);
+          --red-accent: rgb(218, 68, 83);
+          --red-transparent: rgba(218, 68, 83, 0.2);
+          --default-border: rgb(161, 169, 177);
+          --decoration-hover: rgb(61, 174, 233);
+          --button-background: rgb(30, 87, 116);
+          --foreground-link: rgb(29, 153, 243);
+          --input-background: rgb(20, 22, 24);
+        }
+      }
+
       body {
         width: 300px;
         padding: 20px;
-        font-family: Arial, sans-serif;
-        background: #f5f5f5;
+        font-family: "noto-sans", "Segoe UI", Arial, sans-serif;
+        background: var(--background);
+        color: var(--regular-text);
+        transition: all 1s;
       }
 
       .header {
@@ -17,22 +53,34 @@
 
       .header h1 {
         margin: 0;
-        color: #333;
+        color: var(--regular-text);
         font-size: 18px;
       }
 
       .stats {
-        background: white;
+        background: var(--main);
         border-radius: 8px;
         padding: 15px;
         margin-bottom: 15px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border: 1px solid var(--default-border);
+      }
+
+      .settings {
+        background: var(--main);
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 10px;
+        border: 1px solid var(--default-border);
+      }
+
+      .badge-text {
+        display: inline;
       }
 
       .progress-bar {
         width: 100%;
         height: 20px;
-        background: #e0e0e0;
+        background: var(--input-background);
         border-radius: 10px;
         overflow: hidden;
         margin: 10px 0;
@@ -53,10 +101,11 @@
       }
 
       .controls {
-        background: white;
+        background: var(--main);
         border-radius: 8px;
         padding: 15px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border: 1px solid var(--default-border);
+        margin-bottom: 15px;
       }
 
       .control-group {
@@ -65,30 +114,47 @@
 
       .control-group label {
         display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
-        color: #333;
+        margin-bottom: 10px;
+      }
+
+      input[type="checkbox"] {
+        display: inline;
+        padding: 0;
       }
 
       input[type="number"] {
         width: 60px;
         padding: 5px;
-        border: 1px solid #ddd;
+        background-color: var(--input-background);
+        color: var(--regular-text);
+        border: 1px solid var(--default-border);
         border-radius: 4px;
+        transition: border-color 0.5s, box-shadow 0.5s;
+      }
+
+      input:hover {
+        border-color: var(--decoration-hover);
+      }
+
+      input:focus {
+        outline: none;
+        border-color: var(--decoration-hover);
+        box-shadow: 0 0 3px var(--decoration-hover);
       }
 
       button {
-        background: #2196f3;
-        color: white;
-        border: none;
+        background: var(--button-background);
+        color: var(--regular-text);
+        border: 1px solid var(--button-background);
         padding: 8px 16px;
         border-radius: 4px;
         cursor: pointer;
         font-size: 14px;
+        transition: all 0.5s;
       }
 
       button:hover {
-        background: #1976d2;
+        border-color: var(--foreground-link);
       }
 
       button.danger {
@@ -103,18 +169,22 @@
         text-align: center;
         margin-top: 10px;
         padding: 10px;
+        border: 1px solid;
         border-radius: 4px;
-        font-size: 12px;
+        font-size: 15px;
+        transition: all 0.5s;
       }
 
       .status.enabled {
-        background: #e8f5e8;
-        color: #2e7d32;
+        background: var(--green-transparent);
+        color: var(--regular-text);
+        border-color: var(--green-accent);
       }
 
       .status.disabled {
-        background: #ffebee;
-        color: #c62828;
+        background: var(--red-transparent);
+        color: var(--regular-text);
+        border-color: var(--red-accent);
       }
     </style>
   </head>
@@ -149,6 +219,17 @@
         <button data-i18n="enableDisable" id="toggle-btn">
           Enable/Disable
         </button>
+      </div>
+    </div>
+
+    <div class="settings">
+      <div class="control-group">
+        <input type="checkbox" id="enable-badge">
+        <label
+          data-i18n="enableBadge"
+          for="enable-badge"
+          id="badge-text"
+        ></label>
       </div>
     </div>
 
