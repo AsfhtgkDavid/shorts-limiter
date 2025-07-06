@@ -1,6 +1,12 @@
 /// <reference lib="deno.ns" />
 import { parse } from "jsr:@std/ini";
 
+interface Theme {
+  [category: string]: {
+    [parameter: string]: string
+  }
+}
+
 function beautifyRgb(rgbStr: string): string {
   const rgb = rgbStr.split(",");
   return `${rgb[0]}, ${rgb[1]}, ${rgb[2]}`;
@@ -11,11 +17,11 @@ const theme = decoder.decode(
   Deno.readFileSync(Deno.args[Deno.args.length - 1]),
 );
 
-const o = parse(theme);
-
 const win = "Colors:Window";
 const button = "Colors:Button";
 const view = "Colors:View";
+
+const o = parse(theme) as Theme;
 
 const values = [
   ["--main", o[win]["BackgroundNormal"]],
@@ -33,7 +39,7 @@ const values = [
 let css = "";
 
 css += `:root {\n`;
-for (let value of values) {
+for (const value of values) {
   css += `  ${value[0]}: rgb(${beautifyRgb(value[1])});\n`;
 }
 
