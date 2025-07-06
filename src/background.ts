@@ -18,14 +18,14 @@ ext.runtime.onInstalled.addListener(async (details) => {
     ext.storage.local.set({
       maxShorts: 5,
       enabled: true,
-      badgeEnabled: true
+      badgeEnabled: true,
     });
   } else if (details.reason === "update") {
     const { badgeEnabled } = await ext.storage.local.get([
       "badgeEnabled",
     ]) as Record<string, string>;
     if (badgeEnabled === undefined) {
-      ext.storage.local.set({ badgeEnabled: true })
+      ext.storage.local.set({ badgeEnabled: true });
     }
   }
 });
