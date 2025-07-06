@@ -6,23 +6,31 @@ import type { Message } from "./types.ts";
 
 declare const browser: typeof Browser;
 
-// Кросс-браузерный доступ к API
+// Cross-browser extension API
 const ext =
   (typeof chrome !== "undefined" ? chrome : browser) as typeof browser;
 
-// Обработчик установки расширения
-ext.runtime.onInstalled.addListener((details) => {
+// extension install handler
+ext.runtime.onInstalled.addListener(async (details) => {
   if (details.reason === "install") {
     console.log("YouTube Shorts Limiter installed");
     // Инициализируем настройки по умолчанию
     ext.storage.local.set({
       maxShorts: 5,
       enabled: true,
+      badgeEnabled: true,
     });
+  } else if (details.reason === "update") {
+    const { badgeEnabled } = await ext.storage.local.get([
+      "badgeEnabled",
+    ]) as { badgeEnabled?: boolean };
+    if (badgeEnabled === undefined) {
+      ext.storage.local.set({ badgeEnabled: true });
+    }
   }
 });
 
-// Обработчик сообщений от content script
+// content script message handler
 ext.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
   const message = msg as Message;
 
@@ -36,6 +44,10 @@ ext.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
       ext.action.setBadgeText({ text: count.toString() });
       sendResponse({ success: true });
     });
+  }
+  if (message.type === "CLEAR_BADGE") {
+    ext.action.setBadgeText({ text: null });
+    sendResponse({ success: true });
   }
   if (message.type === "GET_SHORTS_COUNT") {
     const today = getTodayKey();
@@ -58,7 +70,7 @@ function getTodayKey() {
   return `shorts_${today.getFullYear()}_${today.getMonth()}_${today.getDate()}`;
 }
 
-// Используем chrome.alarms вместо setInterval для service worker
+// service worker for cleaning up old data
 ext.alarms.create("cleanupOldData", { periodInMinutes: 60 });
 
 ext.alarms.onAlarm.addListener(async (alarm) => {

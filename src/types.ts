@@ -6,6 +6,7 @@ export interface Message {
 export interface Settings {
   maxShorts: number;
   enabled: boolean;
+  badgeEnabled: boolean;
 }
 
 export interface GenericSettings {
