@@ -23,7 +23,7 @@ ext.runtime.onInstalled.addListener(async (details) => {
   } else if (details.reason === "update") {
     const { badgeEnabled } = await ext.storage.local.get([
       "badgeEnabled",
-    ]) as Record<string, string>;
+    ]) as { badgeEnabled?: boolean };
     if (badgeEnabled === undefined) {
       ext.storage.local.set({ badgeEnabled: true });
     }
