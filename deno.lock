@@ -3,6 +3,8 @@
   "specifiers": {
     "jsr:@std/fs@*": "1.0.19",
     "jsr:@std/fs@^1.0.19": "1.0.19",
+    "jsr:@std/ini@*": "0.225.2",
+    "jsr:@std/ini@~0.225.2": "0.225.2",
     "jsr:@std/internal@^1.0.9": "1.0.9",
     "jsr:@std/path@^1.1.1": "1.1.1",
     "npm:@types/chrome@^0.0.329": "0.0.329",
@@ -19,6 +21,9 @@
         "jsr:@std/internal",
         "jsr:@std/path"
       ]
+    },
+    "@std/ini@0.225.2": {
+      "integrity": "c70f6560dacb7e333c2f868aa09aaa4117e6618cc66c60d0b4ca716c135c8e67"
     },
     "@std/internal@1.0.9": {
       "integrity": "bdfb97f83e4db7a13e8faab26fb1958d1b80cc64366501af78a0aee151696eb8"
@@ -405,7 +410,8 @@
   },
   "workspace": {
     "dependencies": [
-      "jsr:@std/fs@^1.0.19"
+      "jsr:@std/fs@^1.0.19",
+      "jsr:@std/ini@~0.225.2"
     ],
     "packageJson": {
       "dependencies": [
