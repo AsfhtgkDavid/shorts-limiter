@@ -28,6 +28,10 @@ In the [Releases](https://github.com/AsfhtgkDavid/shorts-limiter/releases) secti
 - **For Firefox:** A signed `.xpi` file is available, which can be installed directly via `about:addons` or simply by dragging it into the Firefox browser window.
 - **For Chrome:** Download the `.zip` archive, extract it, and load the folder as an unpacked extension via `chrome://extensions` (enable Developer mode).
 
+> 🛡️ **Starting from version 1.1.0**, you can verify the GPG signature of the downloaded file if you get the extension from the [Releases](https://github.com/AsfhtgkDavid/shorts-limiter/releases) page.  
+> The public key can be fetched from keyservers.  
+> Fingerprint: `BCE1 74C7 194B E6D9 29C8  7EF3 60A6 0302 26F5 BD7E`
+
 ### Temporary installation (for development)
 
 1. Open Firefox
