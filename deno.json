@@ -1,6 +1,7 @@
 {
   "imports": {
-    "@std/fs": "jsr:@std/fs@^1.0.18"
+    "@std/fs": "jsr:@std/fs@^1.0.19",
+    "@std/ini": "jsr:@std/ini@^0.225.2"
   },
   "compilerOptions": {
     "lib": [
