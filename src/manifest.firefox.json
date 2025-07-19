@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "YouTube Shorts Limiter",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Limits YouTube Shorts viewing to 5 videos per day",
   "default_locale": "en",
   "icons": {
